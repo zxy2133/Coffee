@@ -27,19 +27,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.coffee.R
 import com.example.coffee.domain.model.Product
 import com.example.coffee.domain.model.ui_components.MyBottomNavBar
 
-@Preview(showBackground = true, showSystemUi = true)
+
 @Composable
-fun HomeScreen() {
+fun HomeScreen(navController: NavHostController) {
     val location = "张学源"
     Scaffold(
-        bottomBar = { MyBottomNavBar() }
+        bottomBar = { MyBottomNavBar(navController,"Home") }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -115,7 +115,7 @@ fun HomeScreen() {
                     imageRes = R.drawable.coffee_mocha
                 )
             )
-            ProductsGrid(products = products) {
+            ProductsGrid(products = products, navController = navController) {
                 Text(text = "首页", fontSize = 16.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(

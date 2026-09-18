@@ -26,7 +26,7 @@ import com.example.coffee.presentation.ui.theme.LightBrown
 
 
 @Composable
-fun DetailsScreenBottomAppBar() {
+fun DetailsScreenBottomAppBar(price: Double) {
     var showCardDialog by remember { mutableStateOf(false) }
     BottomAppBar(
         containerColor = Color.Transparent
@@ -34,7 +34,12 @@ fun DetailsScreenBottomAppBar() {
         Row(
             modifier = Modifier.padding(16.dp)
         ) {
-            Text(text = "价格")
+            Text(
+                text = "$price 元",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = LightBrown
+            )
         }
         Spacer(modifier = Modifier.width(40.dp))
         Button(

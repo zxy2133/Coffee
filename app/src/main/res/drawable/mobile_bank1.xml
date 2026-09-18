@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 手机外框 -->
+    <path
+        android:pathData="M7.2,2 L16.8,2 A2.2,2.2 0 0 1 19,4.2 L19,19.8 A2.2,2.2 0 0 1 16.8,22 L7.2,22 A2.2,2.2 0 0 1 5,19.8 L5,4.2 A2.2,2.2 0 0 1 7.2,2 Z"
+        android:fillColor="@null"
+        android:strokeColor="#FF9800"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+
+    <!-- 建筑：整体缩放居中，改 scaleX/scaleY 即可调整占屏比例 -->
+    <group
+        android:pivotX="12"
+        android:pivotY="11.8"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:translateY="0.2">
+
+        <!-- 三角屋顶 + 镂空圆窗（同 path 内两条子路径靠偶数奇数规则挖洞） -->
+        <path
+            android:pathData="M12,3 L18,8 L6,8 Z M12,4.9 A1.3,1.3 0 1 0 12,7.5 A1.3,1.3 0 1 0 12,4.9 Z"
+            android:fillColor="#FF9800"
+            android:fillType="evenOdd" />
+
+        <!-- 屋檐横梁 -->
+        <path
+            android:pathData="M5.2,8 L5.2,9.6 L18.8,9.6 L18.8,8 Z"
+            android:fillColor="#FF9800" />
+
+        <!-- 三根立柱 -->
+        <path
+            android:pathData="M6.4,9.6 L8.4,9.6 L8.4,17.6 L6.4,17.6 Z"
+            android:fillColor="#FF9800" />
+        <path
+            android:pathData="M11,9.6 L13,9.6 L13,17.6 L11,17.6 Z"
+            android:fillColor="#FF9800" />
+        <path
+            android:pathData="M15.6,9.6 L17.6,9.6 L17.6,17.6 L15.6,17.6 Z"
+            android:fillColor="#FF9800" />
+
+        <!-- 台阶：上层 -->
+        <path
+            android:pathData="M5.2,17.6 L5.2,19.2 L18.8,19.2 L18.8,17.6 Z"
+            android:fillColor="#FF9800" />
+
+        <!-- 台阶：下层 -->
+        <path
+            android:pathData="M4.2,19.2 L4.2,20.6 L19.8,20.6 L19.8,19.2 Z"
+            android:fillColor="#FF9800" />
+    </group>
+</vector>

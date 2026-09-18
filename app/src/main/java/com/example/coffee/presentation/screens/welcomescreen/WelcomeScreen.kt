@@ -20,15 +20,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.coffee.R
+import com.example.coffee.presentation.navigation.Routes
 import com.example.coffee.presentation.ui.theme.LightBrown
 
-@Preview(showBackground = true, showSystemUi = true)
+
 @Composable
-fun WelcomeScreen() {
+fun WelcomeScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -60,7 +61,7 @@ fun WelcomeScreen() {
             )
             Spacer(modifier = Modifier.height(48.dp))
             Button(
-                onClick = {},
+                onClick = {navController.navigate(Routes.HomeScreen)},
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = Color.Black)
@@ -71,7 +72,7 @@ fun WelcomeScreen() {
                     contentColor = Color.White
                 )
             ) {
-                Text(text = "开始品尝", fontSize = 18.sp)
+                Text(text = "开始使用", fontSize = 18.sp)
             }
         }
     }

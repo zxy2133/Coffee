@@ -2,6 +2,7 @@ package com.example.coffee.presentation.screens.homescreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,8 +31,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.coffee.R
 import com.example.coffee.domain.model.Product
+import com.example.coffee.presentation.navigation.Routes
 import com.example.coffee.presentation.ui.theme.LightBrown
 import com.example.coffee.presentation.ui.theme.LightGray
 
@@ -39,11 +42,13 @@ import com.example.coffee.presentation.ui.theme.LightGray
 @Composable
 fun ProductCard(
     product: Product,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavController
 ) {
     Card(
         modifier = modifier
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable{navController.navigate(Routes.DetailScreen(product.id))},
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
@@ -70,7 +75,8 @@ fun ProductCard(
                         .background(
                             color = LightGray.copy(alpha = 0.8f),
                             shape = RoundedCornerShape(10.dp)
-                        ).padding(horizontal = 4.dp, vertical = 4.dp)   //放在background后决定内边距
+                        )
+                        .padding(horizontal = 4.dp, vertical = 4.dp)   //放在background后决定内边距
                 ) {
                     IconButton(
                         onClick = {}

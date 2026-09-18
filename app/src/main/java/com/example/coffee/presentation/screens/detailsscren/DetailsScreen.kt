@@ -1,17 +1,16 @@
 package com.example.coffee.presentation.screens.detailsscren
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavController
 import com.example.coffee.R
 import com.example.coffee.domain.model.Product
 
-@Preview
+
 @Composable
-fun DetailsScreen() {
+fun DetailsScreen(productId: Int,navController: NavController) {
     val products = listOf(
         Product(
             id = 1,
@@ -63,12 +62,15 @@ fun DetailsScreen() {
             imageRes = R.drawable.coffee_mocha
         )
     )
+    val selectedProduct = products.find{it.id == productId}
+    if (selectedProduct == null){
+        Text(text = "未找到商品!", color = Color.Red)
+        return
+    }
     Scaffold(
-        topBar = {DetailsScreenTopAppBar()},
-        bottomBar = {DetailsScreenBottomAppBar()}
+        topBar = {DetailsScreenTopAppBar(navController)},
+        bottomBar = {DetailsScreenBottomAppBar(price = selectedProduct.price)}
     ){innerPadding ->
-        Column(
-            modifier = Modifier.padding(innerPadding)
-        ) { }
+        ProductDetailContent(product = selectedProduct, innerPadding = innerPadding)
     }
 }
