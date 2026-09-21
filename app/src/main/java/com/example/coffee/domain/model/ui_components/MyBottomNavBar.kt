@@ -22,10 +22,10 @@ import com.example.coffee.presentation.ui.theme.LightBrown
 @Composable
 fun MyBottomNavBar(navController: NavHostController, route: String) {
     val navItems = listOf(
-        NavItem("Home", R.drawable.home, Routes.HomeScreen),
-        NavItem("Cart", R.drawable.shopping_cart, Routes.CartScreen),
-        NavItem("Favourite", R.drawable.favorite, Routes.FavouritesScreen),
-        NavItem("Personal", R.drawable.person, Routes.PersonalScreen)
+        NavItem("首页", R.drawable.home, Routes.HomeScreen),
+        NavItem("购物车", R.drawable.shopping_cart, Routes.CartScreen),
+        NavItem("收藏夹", R.drawable.favorite, Routes.FavouritesScreen),
+        NavItem("我的", R.drawable.person, Routes.PersonalScreen)
     )
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.surface,  //设置底部导航栏的容器颜色
@@ -44,8 +44,11 @@ fun MyBottomNavBar(navController: NavHostController, route: String) {
                 },
                 modifier = Modifier.size(36.dp),
                 onClick = {
+                    // 点击当前已选中项时不导航，避免重建实例
+                    if (item.title == route) return@NavigationBarItem
                     navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId) {
+                        // 弹出到首页（栈底一定有首页，避免 startDestination 不在栈的歧义）
+                        popUpTo(Routes.HomeScreen) {
                             saveState = true    //保存页面状态
                         }
                         launchSingleTop = true   //复用栈顶项，防止重复创建

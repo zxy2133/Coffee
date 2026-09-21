@@ -68,7 +68,7 @@ fun DetailsScreen(productId: Int,navController: NavController) {
         return
     }
     Scaffold(
-        topBar = {DetailsScreenTopAppBar(navController)},
+        topBar = {DetailsScreenTopAppBar(navController, selectedProduct)},
         bottomBar = {DetailsScreenBottomAppBar(price = selectedProduct.price)}
     ){innerPadding ->
         ProductDetailContent(product = selectedProduct, innerPadding = innerPadding)

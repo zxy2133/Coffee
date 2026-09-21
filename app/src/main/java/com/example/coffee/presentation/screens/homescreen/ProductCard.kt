@@ -27,12 +27,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.coffee.R
+import com.example.coffee.domain.model.CartManager
+import com.example.coffee.domain.model.FavouriteManager
 import com.example.coffee.domain.model.Product
 import com.example.coffee.presentation.navigation.Routes
 import com.example.coffee.presentation.ui.theme.LightBrown
@@ -45,6 +49,8 @@ fun ProductCard(
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
+    val context = LocalContext.current
+    val isFavourite = FavouriteManager.contains(product)
     Card(
         modifier = modifier
             .padding(8.dp)
@@ -79,12 +85,22 @@ fun ProductCard(
                         .padding(horizontal = 4.dp, vertical = 4.dp)   //放在background后决定内边距
                 ) {
                     IconButton(
-                        onClick = {}
+                        onClick = {
+                            val added = FavouriteManager.toggle(product)
+                            Toast.makeText(
+                                context,
+                                if (added) "已添加到收藏夹" else "已取消收藏",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.favorite),
+                            painter = painterResource(
+                                if (isFavourite) R.drawable.favorite_filled
+                                else R.drawable.favorite
+                            ),
                             contentDescription = "收藏",
-                            tint = LightBrown,
+                            tint = if (isFavourite) Color(0xFFE53935) else LightBrown,
                             modifier = Modifier.size(30.dp)
                         )
                     }
@@ -119,7 +135,10 @@ fun ProductCard(
                     )
                 )
                 IconButton(
-                    onClick = {},
+                    onClick = {
+                        CartManager.add(product)
+                        Toast.makeText(context, "已添加到购物车", Toast.LENGTH_SHORT).show()
+                    },
                     colors = IconButtonDefaults.iconButtonColors(
                         containerColor = LightBrown,
                         contentColor = Color.White

@@ -19,6 +19,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -37,9 +41,63 @@ import com.example.coffee.domain.model.ui_components.MyBottomNavBar
 
 @Composable
 fun HomeScreen(navController: NavHostController) {
-    val location = "张学源"
+    val location = "广东深圳店"
+    //商品数据
+    val products = listOf(
+        Product(
+            id = 1,
+            name = "意式咖啡",
+            description = "浓郁醇厚",
+            price = 3.80,
+            imageRes = R.drawable.coffee_cappuccino
+        ),
+        Product(
+            id = 2,
+            name = "拿铁",
+            description = "丝滑香浓",
+            price = 4.50,
+            imageRes = R.drawable.coffee_espresso
+        ),
+        Product(
+            id = 3,
+            name = "卡布奇诺",
+            description = "巧克力风味",
+            price = 4.20,
+            imageRes = R.drawable.coffee_flat_white
+        ),
+        Product(
+            id = 4,
+            name = "摩卡",
+            description = "可可风味",
+            price = 4.70,
+            imageRes = R.drawable.coffee_iced_mocha
+        ),
+        Product(
+            id = 5,
+            name = "玛奇朵",
+            description = "醇厚奶香",
+            price = 4.60,
+            imageRes = R.drawable.coffee_latte
+        ),
+        Product(
+            id = 6,
+            name = "澳白",
+            description = "丝绒般顺滑",
+            price = 4.40,
+            imageRes = R.drawable.coffee_macchiato
+        ),
+        Product(
+            id = 7,
+            name = "冰摩卡",
+            description = "清爽浓郁",
+            price = 4.70,
+            imageRes = R.drawable.coffee_mocha
+        )
+    )
+    var selectedCategory by remember { mutableStateOf("全部") }
+    val filteredProducts = products.filter { it.matchesCategory(selectedCategory) }
     Scaffold(
-        bottomBar = { MyBottomNavBar(navController,"Home") }
+        bottomBar = { MyBottomNavBar(navController,"首页") }
     ) { innerPadding ->
         Box(
             modifier = Modifier
@@ -63,59 +121,7 @@ fun HomeScreen(navController: NavHostController) {
                 .padding(innerPadding),
 
             ) {
-            //商品数据
-            val products = listOf(
-                Product(
-                    id = 1,
-                    name = "意式咖啡",
-                    description = "浓郁醇厚",
-                    price = 3.80,
-                    imageRes = R.drawable.coffee_cappuccino
-                ),
-                Product(
-                    id = 2,
-                    name = "拿铁",
-                    description = "丝滑香浓",
-                    price = 4.50,
-                    imageRes = R.drawable.coffee_espresso
-                ),
-                Product(
-                    id = 3,
-                    name = "卡布奇诺",
-                    description = "巧克力风味",
-                    price = 4.20,
-                    imageRes = R.drawable.coffee_flat_white
-                ),
-                Product(
-                    id = 4,
-                    name = "摩卡",
-                    description = "可可风味",
-                    price = 4.70,
-                    imageRes = R.drawable.coffee_iced_mocha
-                ),
-                Product(
-                    id = 5,
-                    name = "玛奇朵",
-                    description = "醇厚奶香",
-                    price = 4.60,
-                    imageRes = R.drawable.coffee_latte
-                ),
-                Product(
-                    id = 6,
-                    name = "澳白",
-                    description = "丝绒般顺滑",
-                    price = 4.40,
-                    imageRes = R.drawable.coffee_macchiato
-                ),
-                Product(
-                    id = 7,
-                    name = "冰摩卡",
-                    description = "清爽浓郁",
-                    price = 4.70,
-                    imageRes = R.drawable.coffee_mocha
-                )
-            )
-            ProductsGrid(products = products, navController = navController) {
+            ProductsGrid(products = filteredProducts, navController = navController) {
                 Text(text = "首页", fontSize = 16.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
@@ -146,10 +152,21 @@ fun HomeScreen(navController: NavHostController) {
                     contentScale = ContentScale.Fit
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                CoffeeCategoryFilterRow()
+                CoffeeCategoryFilterRow(
+                    selectedCategory = selectedCategory,
+                    onSelected = { selectedCategory = it }
+                )
 
             }
         }
 
     }
+}
+
+/** 按分类过滤商品：咖啡→名称含"咖啡"，拿铁→名称含"拿铁"，其他→剩余商品 */
+private fun Product.matchesCategory(category: String): Boolean = when (category) {
+    "全部" -> true
+    "咖啡" -> name.contains("咖啡")
+    "拿铁" -> name.contains("拿铁")
+    else -> !name.contains("咖啡") && !name.contains("拿铁")
 }

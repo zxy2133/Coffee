@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.coffee.R
 import com.example.coffee.presentation.ui.theme.LightBrown
+import java.util.Locale
 
 @Composable
 fun PaymentModeSelectionCard(totalAmount: Double) {
@@ -75,7 +76,7 @@ fun PaymentModeSelectionCard(totalAmount: Double) {
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "$totalAmount 元",
+                            text = String.format(Locale.US, "%.1f 元", totalAmount),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.SemiBold, color = LightBrown
                             )

@@ -17,10 +17,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,8 +30,12 @@ import com.example.coffee.presentation.ui.theme.LightBrown
 
 
 @Composable
-fun CartItemCard(product: Product) {
-    var quality by remember { mutableIntStateOf(1) }
+fun CartItemCard(
+    product: Product,
+    quantity: Int,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit
+) {
     Card(
         modifier = Modifier.fillMaxWidth().padding(6.dp),
         colors = CardDefaults.cardColors(
@@ -50,7 +50,7 @@ fun CartItemCard(product: Product) {
         ) {
             Image(
                 painter = painterResource(product.imageRes),
-                contentDescription = "test",
+                contentDescription = product.description,
                 modifier = Modifier
                     .size(70.dp)
                     .clip(RoundedCornerShape(10.dp))
@@ -74,8 +74,7 @@ fun CartItemCard(product: Product) {
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 IconButton(
-                    onClick = { quality-- },
-                    enabled = quality > 1,
+                    onClick = onDecrease,
                     modifier = Modifier
                         .background(
                             color = LightBrown.copy(0.1f),
@@ -90,11 +89,11 @@ fun CartItemCard(product: Product) {
                     )
                 }
                 Text(
-                    text = "$quality",
+                    text = "$quantity",
                     style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold)
                 )
                 IconButton(
-                    onClick = { quality++ },
+                    onClick = onIncrease,
                     modifier = Modifier
                         .background(
                             color = LightBrown.copy(0.1f),

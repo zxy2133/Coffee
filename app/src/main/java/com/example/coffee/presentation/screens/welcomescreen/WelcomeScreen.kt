@@ -61,7 +61,12 @@ fun WelcomeScreen(navController: NavController) {
             )
             Spacer(modifier = Modifier.height(48.dp))
             Button(
-                onClick = {navController.navigate(Routes.HomeScreen)},
+                onClick = {
+                    navController.navigate(Routes.HomeScreen) {
+                        // 清栈：进入首页后移除欢迎页，按返回键不会回到欢迎页
+                        popUpTo(Routes.WelcomeScreen) { inclusive = true }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(color = Color.Black)
