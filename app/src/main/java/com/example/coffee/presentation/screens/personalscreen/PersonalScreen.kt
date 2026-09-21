@@ -102,7 +102,8 @@ fun PersonalScreen(navController: NavHostController) {
                             .padding(4.dp)
                             .clickable {
                                 navController.navigate(Routes.CartScreen) {
-                                    popUpTo(navController.graph.startDestinationId) {
+                                    // 弹出到首页，保持与底部导航一致的栈结构
+                                    popUpTo(Routes.HomeScreen) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
@@ -133,7 +134,8 @@ fun PersonalScreen(navController: NavHostController) {
                             .padding(4.dp)
                             .clickable {
                                 navController.navigate(Routes.FavouritesScreen) {
-                                    popUpTo(navController.graph.startDestinationId) {
+                                    // 弹出到首页，保持与底部导航一致的栈结构
+                                    popUpTo(Routes.HomeScreen) {
                                         saveState = true
                                     }
                                     launchSingleTop = true
