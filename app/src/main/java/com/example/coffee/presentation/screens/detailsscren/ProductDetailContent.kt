@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.coffee.R
 import com.example.coffee.domain.model.Product
 
 @Composable
@@ -50,31 +51,36 @@ fun ProductDetailContent(product: Product, innerPadding: PaddingValues) {
             Spacer(modifier = Modifier.height(18.dp))
             Text(text = product.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(12.dp))
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "冷 / 热",
-                    fontSize = 24.sp,
-                    color = Color.Gray,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-            Spacer(modifier = Modifier.height(12.dp))
-            HorizontalDivider(color = Color.Black.copy(0.5f))
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                text = "口感", fontSize = 24.sp, fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.height(12.dp))
             Text(
                 text = product.description,
                 fontSize = 24.sp,
                 color = Color.Gray,
                 fontWeight = FontWeight.Medium
             )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = "温度", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(60.dp)
+            ) {
+                var selectedTemperature by remember { mutableStateOf("冷") }
+                listOf("冷", "热").forEach { temp ->
+                    SelectTemperature(
+                        temperature = temp,
+                        icon = painterResource(if (temp == "冷")R.drawable.ice else R.drawable.hot),
+                        iconContentDescription = if (temp == "冷") "冷" else "热",
+                        tint = if (temp == "冷") Color(0xFF4820DC) else Color(0xFFDC630A),
+                        selected = selectedTemperature == temp,
+                        onClick = { selectedTemperature = temp },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(46.dp)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            HorizontalDivider(color = Color.Black.copy(0.5f))
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = "杯型", fontSize = 24.sp, fontWeight = FontWeight.Bold)
             Spacer(modifier = Modifier.height(16.dp))
